@@ -14,3 +14,9 @@ export * from "./leads/messages";
 export * from "./leads/lead-status.constants";
 export * from "./leads/leads.types";
 export * from "./leads/analytics.types";
+
+// notifications-service
+export * from "./notifications/clients";
+export * from "./notifications/messages";
+export * from "./notifications/events";
+export * from "./notifications/notifications.types";

@@ -5,11 +5,13 @@ import {
   ServiceUnavailableException,
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
-import { firstValueFrom, timeout, TimeoutError } from "rxjs";
+import { firstValueFrom, lastValueFrom, timeout, TimeoutError } from "rxjs";
 
 const serviceTimeoutMs = 5000;
 
 type Contract = Record<string, { payload: unknown; response: unknown }>;
+
+type Events = Record<string, unknown>;
 
 type RpcError = { statusCode: number; message?: unknown };
 
@@ -34,7 +36,10 @@ const isConnectionError = (error: unknown): boolean => {
   return typeof code === "string" && connectionErrorCodes.has(code);
 };
 
-export class ServiceClient<TContract extends Contract> {
+export class ServiceClient<
+  TContract extends Contract,
+  TEvents extends Events = Record<never, never>,
+> {
   private readonly logger: Logger;
 
   constructor(
@@ -59,6 +64,21 @@ export class ServiceClient<TContract extends Contract> {
     }
   }
 
+
+  async emit<K extends keyof TEvents & string>(
+    pattern: K,
+    payload: TEvents[K],
+  ): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.client.emit(pattern, payload).pipe(timeout(serviceTimeoutMs)),
+        { defaultValue: undefined },
+      );
+    } catch (error) {
+      throw this.toHttpException(pattern, error);
+    }
+  }
+
   private toHttpException(pattern: string, error: unknown): HttpException {
     if (isRpcError(error)) {
       return new HttpException(error, error.statusCode);
@@ -66,12 +86,13 @@ export class ServiceClient<TContract extends Contract> {
 
     if (error instanceof TimeoutError || isConnectionError(error)) {
       this.logger.warn(`${this.serviceName} unavailable (${pattern})`);
-      return new ServiceUnavailableException(
-        `${this.serviceName} unavailable`,
-      );
+      return new ServiceUnavailableException(`${this.serviceName} unavailable`);
     }
 
-    this.logger.error(`${this.serviceName} failed (${pattern})`, error as Error);
+    this.logger.error(
+      `${this.serviceName} failed (${pattern})`,
+      error as Error,
+    );
     return new InternalServerErrorException();
   }
 }
