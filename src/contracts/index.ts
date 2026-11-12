@@ -20,3 +20,8 @@ export * from "./notifications/clients";
 export * from "./notifications/messages";
 export * from "./notifications/events";
 export * from "./notifications/notifications.types";
+
+// chat-service
+export * from "./chat/chat.types";
+export * from "./chat/clients";
+export * from "./chat/messages";
