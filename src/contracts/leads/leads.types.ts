@@ -1,10 +1,8 @@
-
 import type { Actor } from "../actor";
 import type { UserRef } from "../users/users.types";
 import type { leadsMessages } from "./messages";
 import type { LeadStatus } from "./lead-status.constants";
 import type { EmployeeAnalytics, LeadAnalytics } from "./analytics.types";
-
 
 export type NoteDto = {
   id: string;
@@ -55,11 +53,7 @@ export type LeadDto = {
   closedById: string | null;
   assignedToId: string | null;
   assignedToName: string | null;
-  leadNotes: NoteDto[];
-  activities: ActivityDto[];
-  tasks: TaskDto[];
 };
-
 
 export type CreateLeadData = {
   name: string;
@@ -88,7 +82,6 @@ export type UpdateTaskData = Partial<CreateTaskData> & {
   completedAt?: string;
 };
 
-
 export type LeadChanges = {
   assignedChanged: boolean;
   nextAssignee: UserRef | null | undefined;
@@ -110,7 +103,11 @@ export type RemoveLeadPayload = { id: string };
 
 export type LeadIdPayload = { leadId: string };
 export type CreateNotePayload = { actor: Actor; leadId: string; text: string };
-export type RemoveNotePayload = { actor: Actor; leadId: string; noteId: string };
+export type RemoveNotePayload = {
+  actor: Actor;
+  leadId: string;
+  noteId: string;
+};
 
 export type CreateTaskPayload = {
   actor: Actor;
@@ -131,13 +128,15 @@ export type AnalyticsEmployeesPayload = {
 
 export type OkResponse = { ok: true };
 
-
 type Empty = Record<string, never>;
 
 export type LeadsContract = {
   [leadsMessages.leadsFindAll]: { payload: Empty; response: LeadDto[] };
   [leadsMessages.leadsFindOne]: { payload: FindLeadPayload; response: LeadDto };
-  [leadsMessages.leadsCreate]: { payload: CreateLeadPayload; response: LeadDto };
+  [leadsMessages.leadsCreate]: {
+    payload: CreateLeadPayload;
+    response: LeadDto;
+  };
   [leadsMessages.leadsUpdate]: {
     payload: UpdateLeadPayload;
     response: UpdateLeadResponse;
@@ -151,7 +150,10 @@ export type LeadsContract = {
     payload: LeadIdPayload;
     response: NoteDto[];
   };
-  [leadsMessages.notesCreate]: { payload: CreateNotePayload; response: NoteDto };
+  [leadsMessages.notesCreate]: {
+    payload: CreateNotePayload;
+    response: NoteDto;
+  };
   [leadsMessages.notesRemove]: {
     payload: RemoveNotePayload;
     response: OkResponse;
@@ -166,7 +168,10 @@ export type LeadsContract = {
     payload: CreateTaskPayload;
     response: TaskWithLeadName;
   };
-  [leadsMessages.tasksUpdate]: { payload: UpdateTaskPayload; response: TaskDto };
+  [leadsMessages.tasksUpdate]: {
+    payload: UpdateTaskPayload;
+    response: TaskDto;
+  };
   [leadsMessages.tasksRemove]: {
     payload: RemoveTaskPayload;
     response: TaskWithLeadName;
