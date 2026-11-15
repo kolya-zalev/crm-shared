@@ -14,6 +14,7 @@ export * from "./leads/messages";
 export * from "./leads/lead-status.constants";
 export * from "./leads/leads.types";
 export * from "./leads/analytics.types";
+export * from "./leads/events";
 
 // notifications-service
 export * from "./notifications/clients";
@@ -25,3 +26,8 @@ export * from "./notifications/notifications.types";
 export * from "./chat/chat.types";
 export * from "./chat/clients";
 export * from "./chat/messages";
+
+//task-service
+export * from "./tasks/clients";
+export * from "./tasks/messages";
+export * from "./tasks/tasks.types";
