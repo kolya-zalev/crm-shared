@@ -31,3 +31,6 @@ export * from "./chat/messages";
 export * from "./tasks/clients";
 export * from "./tasks/messages";
 export * from "./tasks/tasks.types";
+
+// exchange crm.events
+export * from "./events";

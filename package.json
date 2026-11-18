@@ -14,11 +14,14 @@
   "peerDependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/microservices": "^10.0.0",
+    "amqplib": "^2.2.1",
     "rxjs": "^7.0.0"
   },
   "devDependencies": {
     "@nestjs/common": "^10.4.0",
     "@nestjs/microservices": "^10.4.22",
+    "@types/node": "^20.19.43",
+    "amqplib": "^2.4.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typescript": "^5.6.0"
