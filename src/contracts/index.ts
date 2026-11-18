@@ -34,3 +34,8 @@ export * from "./tasks/tasks.types";
 
 // exchange crm.events
 export * from "./events";
+
+// activity-service
+export * from "./activities/clients";
+export * from "./activities/messages";
+export * from "./activities/activities.types";

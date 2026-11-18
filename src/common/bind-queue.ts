@@ -1,10 +1,14 @@
-import { Channel, ChannelModel, connect } from "amqplib";
-import { CRM_EVENTS_EXCHANGE, CrmEventName } from "../contracts";
+import { connect, type Channel, type ChannelModel } from "amqplib";
+import {
+  CRM_EVENTS_EXCHANGE,
+  type CrmEventName,
+  type CrmEventPattern,
+} from "../contracts";
 
 export async function bindQueueToEvents(options: {
   url: string;
   queue: string;
-  events: CrmEventName[];
+  events: (CrmEventName | CrmEventPattern)[];
 }): Promise<void> {
   let connection: ChannelModel | undefined;
   let channel: Channel | undefined;

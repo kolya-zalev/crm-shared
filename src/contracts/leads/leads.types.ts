@@ -88,6 +88,8 @@ export type LeadChanges = {
   statusChanged: boolean;
   closing: boolean;
   newStatus?: string;
+  previousStatus: string;
+  previousAssigneeName: string | null;
 };
 
 export type FindLeadPayload = { id: string };

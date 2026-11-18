@@ -40,12 +40,16 @@ export type LeadAssignedEvent = WithLeaders & {
   assignedName: string;
   leadId: string;
   leadName: string;
+  previousAssigneeName: string | null;
+  occurredAt: string;
 };
 export type LeadClosedEvent = WithLeaders & {
   actor: Actor;
   leadId: string;
   leadName: string;
   status: string;
+  previousStatus: string;
+  occurredAt: string;
 };
 export type LeadStatusChangedEvent = LeadClosedEvent;
 export type TaskCreatedEvent = WithLeaders & {
@@ -92,5 +96,3 @@ export type NotificationsEvents = {
   [eventsNotifications.taskDeleted]: TaskDeletedEvent;
   [eventsNotifications.notificationCreated]: NotificationCreatedEvent;
 };
-
-
